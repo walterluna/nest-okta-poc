@@ -9,14 +9,11 @@ export class HttpStrategy extends PassportStrategy(Strategy) {
     super();
   }
 
-  async validate(
-    token: string,
-    done: (error: HttpException, value: boolean | string) => any,
-  ) {
+  async validate(token: string) {
     try {
       return await this.authService.validateToken(token);
     } catch (error) {
-      done(error, 'The token is not valid');
+      throw new HttpException('Unauthorized', 401);
     }
   }
 }
